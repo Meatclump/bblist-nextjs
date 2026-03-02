@@ -1,3 +1,10 @@
+import { Logout } from "@/components/ui/logout";
+
 export default function Dashboard() {
-    return <h1>Dashboard</h1>
+    return (
+        <main>
+            <h1>Dashboard</h1>
+            <Logout />
+        </main>
+    )
 }
