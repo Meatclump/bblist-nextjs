@@ -12,5 +12,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         redirect("/login")
     }
 
+    console.log(session)
+
     return <>{children}</>
 }
