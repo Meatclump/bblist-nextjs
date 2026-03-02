@@ -1,17 +1,19 @@
-import { GalleryVerticalEnd } from "lucide-react"
-
 import { SignupForm } from "@/components/signup-form"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { FaTurnUp } from "react-icons/fa6"
 
 export default function SignupPage() {
   return (
     <div className="bg-muted flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+      <Button variant={"link"} className="text-muted-foreground absolute top-0 left-0" asChild>
+        <Link href={"/"}>
+          <FaTurnUp className="rotate-270" />
+          Go Back Home
+        </Link>
+      </Button>
       <div className="flex w-full max-w-sm flex-col gap-6">
-        <a href="#" className="flex items-center gap-2 self-center font-medium">
-          <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
-            <GalleryVerticalEnd className="size-4" />
-          </div>
-          Acme Inc.
-        </a>
+          <h1 className="font-roboto-slab font-xl text-center font-extrabold text-red-700 text-2xl">BBList</h1>
         <SignupForm />
       </div>
     </div>

@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -15,6 +14,7 @@ import {
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
 } from "@/components/ui/field"
 import {
@@ -26,7 +26,6 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { signIn } from "@/server/users"
-
 import { z } from "zod"
 import Link from "next/link"
 import { toast } from "sonner"
@@ -36,14 +35,14 @@ import { Spinner } from "./ui/spinner"
 
 const formSchema = z.object({
   email: z.email(),
-  password: z.string().min(8)
+  password: z.string().min(8, "Password must be at least 8 characters"),
 })
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const [loading, setLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -54,19 +53,18 @@ export function LoginForm({
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setLoading(true)
+    setIsLoading(true)
     const { success, message } = await signIn(values.email, values.password)
 
     if (success) {
-      setLoading(false)
       toast.success(message as string)
       router.push("/dashboard")
     } else {
-      setLoading(false)
       toast.error(message as string, { className: "!bg-destructive/30" })
     }
+    setIsLoading(false)
   }
-  
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -79,17 +77,8 @@ export function LoginForm({
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FieldGroup>
-              {/* <Field>
-                <Button variant="outline" type="button">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                      d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  Login with Apple
-                </Button>
+              <FieldGroup>
+                {/* <Field>
                 <Button variant="outline" type="button">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
@@ -103,52 +92,54 @@ export function LoginForm({
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                 Or continue with
               </FieldSeparator> */}
-              <Field>
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="email@example.com" {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </Field>
-              <Field>
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input placeholder="******" {...field} type="password" />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <div className="flex">
-                  <Link
-                    href="#"
-                    className="text-sm underline-offset-4 hover:underline ms-auto"
-                  >
-                    Forgot your password?
-                  </Link>
-                </div>
-              </Field>
-              <Field>
-                <Button type="submit" disabled={loading}>
-                  {loading && <Spinner />}
-                  Login
-                </Button>
-                <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#">Sign up</a>
-                </FieldDescription>
-              </Field>
-            </FieldGroup>
+                <Field>
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field, fieldState }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="email@example.com" {...field} />
+                        </FormControl>
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      </FormItem>
+                    )}
+                  />
+                </Field>
+                <Field>
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field, fieldState }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input placeholder="******" {...field} type="password" />
+                        </FormControl>
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      </FormItem>
+                    )}
+                  />
+                  <div className="flex">
+                    <Link
+                      href="#"
+                      className="text-sm underline-offset-4 hover:underline ms-auto"
+                    >
+                      Forgot your password?
+                    </Link>
+                  </div>
+                </Field>
+                <Field>
+                  <Button type="submit" disabled={isLoading}>
+                    {isLoading && <Spinner />}
+                    Login
+                  </Button>
+                  <FieldDescription className="text-center">
+                    Don&apos;t have an account? <Link href="/signup">Sign up</Link>
+                  </FieldDescription>
+                </Field>
+              </FieldGroup>
             </form>
           </Form>
         </CardContent>
