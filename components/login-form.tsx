@@ -16,17 +16,13 @@ import {
   Field,
   FieldDescription,
   FieldGroup,
-  FieldLabel,
-  FieldSeparator,
 } from "@/components/ui/field"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { signIn } from "@/server/users"
@@ -35,6 +31,8 @@ import { z } from "zod"
 import Link from "next/link"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
+import { Spinner } from "./ui/spinner"
 
 const formSchema = z.object({
   email: z.email(),
@@ -45,6 +43,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [loading, setLoading] = useState<boolean>(false)
   const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,13 +54,16 @@ export function LoginForm({
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true)
     const { success, message } = await signIn(values.email, values.password)
 
     if (success) {
+      setLoading(false)
       toast.success(message as string)
       router.push("/dashboard")
     } else {
-      toast.error(message as string)
+      setLoading(false)
+      toast.error(message as string, { className: "!bg-destructive/30" })
     }
   }
   
@@ -138,7 +140,10 @@ export function LoginForm({
                 </div>
               </Field>
               <Field>
-                <Button type="submit">Login</Button>
+                <Button type="submit" disabled={loading}>
+                  {loading && <Spinner />}
+                  Login
+                </Button>
                 <FieldDescription className="text-center">
                   Don&apos;t have an account? <a href="#">Sign up</a>
                 </FieldDescription>
