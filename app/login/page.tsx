@@ -2,20 +2,8 @@ import { LoginForm } from "@/components/login-form"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { FaTurnUp } from "react-icons/fa6"
-import { auth } from "@/lib/auth"
-import { headers } from "next/headers"
-import { redirect } from "next/navigation"
 
 const LoginPage = async () => {
-
-  const session = await auth.api.getSession({
-    headers: await headers()
-  })
-  
-  if(session) {
-    redirect("/dashboard")
-  }
-
   return (
     <div className="bg-muted flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
       <Button variant={"link"} className="text-muted-foreground absolute top-0 left-0" asChild>
