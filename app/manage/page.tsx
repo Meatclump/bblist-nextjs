@@ -10,7 +10,7 @@ export default async function Dashboard() {
     
     return (
         <main className="flex flex-col gap-3 p-3">
-            <h1>Dashboard</h1>
+            <h1>Manage</h1>
             {user && 
                 <p>
                     Welcome back, {user.name} (role: {user.role})

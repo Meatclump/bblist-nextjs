@@ -3,7 +3,7 @@ import getUser from "@/lib/user"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 
-export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default async function ManageLayout({ children }: { children: React.ReactNode }) {
     const user = await getUser()
 
     const session = await auth.api.getSession({
@@ -11,7 +11,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
     })
 
     if (!session) {
-        redirect("/login")
+        redirect("/dashboard")
+    }
+
+    if (session.user.role !== "admin") {
+        redirect("/dashboard")
     }
 
     return <>{children}</>

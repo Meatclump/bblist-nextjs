@@ -1,6 +1,15 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp, boolean, index, integer } from "drizzle-orm/pg-core";
 
+// START of roster tables
+
+export const Team = pgTable("team", {
+  id: integer("id").primaryKey(),
+  name: text("name").notNull()
+})
+
+// END of roster tables
+
 export const test = pgTable("test", {
   id: integer("id").primaryKey(),
   text: text("text"),
