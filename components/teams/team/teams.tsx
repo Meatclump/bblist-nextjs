@@ -45,7 +45,7 @@ const Teams: FC<Props> = ({ teams }) => {
             <ul className="flex flex-col text-sm">
                 {teamList.map(team => (
                     <li key={`${team.id}-${team.name}`} className="not-last:border-b p-1.5 flex items-center justify-between">
-                        <span>{team.name}</span>
+                        <span className="d-block flex-1">{team.name}</span>
                         <div className="flex gap-1">
                             <RenameTeam renameTeam={renameTeam} itemId={team.id} />
                             <DeleteTeam deleteTeam={deleteTeamItem} itemId={team.id} />

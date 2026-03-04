@@ -1,13 +1,13 @@
 "use client";
 
 import { ChangeEvent, FC, useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 
 interface Props {
-    createTeam: (value: string) => void
+    createPosition: (value: string) => void
 }
 
-const AddTeam: FC<Props> = ({ createTeam }) => {
+const AddPosition: FC<Props> = ({ createPosition }) => {
     const [input, setInput] = useState("")
 
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value)
@@ -16,7 +16,7 @@ const AddTeam: FC<Props> = ({ createTeam }) => {
     }
 
     const handleAdd = async () => {
-        createTeam(input)
+        createPosition(input)
         setInput("")
     }
 
@@ -28,7 +28,7 @@ const AddTeam: FC<Props> = ({ createTeam }) => {
                 onChange={handleInput}
                 onKeyUp={handleInputKeyUp}
                 value={input}
-                placeholder="Enter team name..."
+                placeholder="Enter position name..."
             />
             <Button onClick={handleAdd}>
                 Add
@@ -37,4 +37,4 @@ const AddTeam: FC<Props> = ({ createTeam }) => {
     )
 }
 
-export default AddTeam
+export default AddPosition

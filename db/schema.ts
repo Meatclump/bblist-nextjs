@@ -3,9 +3,20 @@ import { pgTable, text, timestamp, boolean, index, integer } from "drizzle-orm/p
 
 // START of roster tables
 
+export const position = pgTable("position", {
+  id: integer("id").primaryKey(),
+  name: text("name").notNull(),
+})
+
+// export const model = pgTable("model", {
+//   id: integer("id").primaryKey(),
+
+// })
+
+
 export const team = pgTable("team", {
   id: integer("id").primaryKey(),
-  name: text("name").notNull()
+  name: text("name").notNull(),
 })
 
 // END of roster tables
