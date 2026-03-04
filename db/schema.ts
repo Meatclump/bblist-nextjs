@@ -3,7 +3,7 @@ import { pgTable, text, timestamp, boolean, index, integer } from "drizzle-orm/p
 
 // START of roster tables
 
-export const Team = pgTable("team", {
+export const team = pgTable("team", {
   id: integer("id").primaryKey(),
   name: text("name").notNull()
 })

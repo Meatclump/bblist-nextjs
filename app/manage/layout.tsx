@@ -1,3 +1,4 @@
+import Nav from "@/components/navbar/nav"
 import { auth } from "@/lib/auth"
 import getUser from "@/lib/user"
 import { headers } from "next/headers"
@@ -18,5 +19,10 @@ export default async function ManageLayout({ children }: { children: React.React
         redirect("/dashboard")
     }
 
-    return <>{children}</>
+    return (
+        <>
+            <Nav />
+            {children}
+        </>
+    )
 }

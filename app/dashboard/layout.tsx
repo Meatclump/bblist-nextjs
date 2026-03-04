@@ -1,3 +1,4 @@
+import Nav from "@/components/navbar/nav"
 import { auth } from "@/lib/auth"
 import getUser from "@/lib/user"
 import { headers } from "next/headers"
@@ -14,5 +15,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
         redirect("/login")
     }
 
-    return <>{children}</>
+    return (
+        <>
+            <Nav />
+            {children}
+        </>
+    )
 }
