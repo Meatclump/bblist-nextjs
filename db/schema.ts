@@ -8,11 +8,19 @@ export const position = pgTable("position", {
   name: text("name").notNull(),
 })
 
-// export const model = pgTable("model", {
-//   id: integer("id").primaryKey(),
-
-// })
-
+export const model = pgTable("model", {
+  id: integer("id").primaryKey(),
+  positionId: integer("position_id")
+    .notNull()
+    .references(() => position.id, { onDelete: "cascade" }),
+  playerNumber: integer("player_number").notNull(),
+  ma: integer("ma").notNull(),
+  st: integer("st").notNull(),
+  ag: integer("ag").notNull(),
+  pa: integer("pa").notNull(),
+  av: integer("av").notNull(),
+  cost: integer("cost").notNull(),
+})
 
 export const team = pgTable("team", {
   id: integer("id").primaryKey(),

@@ -36,6 +36,13 @@
       "when": 1772643559553,
       "tag": "0004_parallel_hobgoblin",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1772644663563,
+      "tag": "0005_slim_toad",
+      "breakpoints": true
     }
   ]
 }
