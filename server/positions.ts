@@ -29,5 +29,5 @@ export const editPosition = async (id: number, name: string) => {
             name
         })
         .where(eq(position.id, id))
-    revalidatePath("/")
+    revalidatePath("/manage")
 }

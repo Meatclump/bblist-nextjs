@@ -1,12 +1,15 @@
+import Models from "@/components/teams/model/models";
 import Positions from "@/components/teams/position/positions";
 import Teams from "@/components/teams/team/teams";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { getModels } from "@/server/models";
 import { getPositions } from "@/server/positions";
 import { getTeams } from "@/server/teams";
 
 export default async function Manage() {
     const teams = await getTeams()
     const positions = await getPositions()
+    const models = await getModels()
     return (
         <div className="flex w-full justify-center">
             <main className="flex flex-col gap-3 p-3 w-full max-w-6xl">
@@ -39,6 +42,21 @@ export default async function Manage() {
                         <Positions positions={positions} />
                     </CardContent>
                 </Card>
+                {/* Model Types */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle>
+                            Model Types
+                        </CardTitle>
+                        <CardDescription>
+                            Add, modify or delete models.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Models models={models} positions={positions} />
+                    </CardContent>
+                </Card>
+
             </main>
         </div>
     )

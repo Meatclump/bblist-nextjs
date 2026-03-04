@@ -10,10 +10,10 @@ export const position = pgTable("position", {
 
 export const model = pgTable("model", {
   id: integer("id").primaryKey(),
+  name: text("name").notNull(),
   positionId: integer("position_id")
     .notNull()
     .references(() => position.id, { onDelete: "cascade" }),
-  playerNumber: integer("player_number").notNull(),
   ma: integer("ma").notNull(),
   st: integer("st").notNull(),
   ag: integer("ag").notNull(),

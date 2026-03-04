@@ -1,0 +1,1 @@
+ALTER TABLE "model" ADD COLUMN "name" text NOT NULL;

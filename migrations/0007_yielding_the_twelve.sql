@@ -1,0 +1,1 @@
+ALTER TABLE "model" DROP COLUMN "player_number";
