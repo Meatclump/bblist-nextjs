@@ -26,16 +26,13 @@ const RenameRoster: FC<Props> = ({ renameRoster, itemId }) => {
 
     return (
         <div className="px-2 items-center flex gap-2">
-            <Label htmlFor={`change-${itemId}`} className="whitespace-nowrap">
-                Change Name To:
-            </Label>
             <Input
                 name={`change-${itemId}`}
                 onChange={handleInput}
                 onKeyUp={handleInputKeyUp}
             />
             <Button onClick={handleChange}>
-                Change
+                Update Name
             </Button>
         </div>
     )

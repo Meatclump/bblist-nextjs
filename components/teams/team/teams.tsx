@@ -15,12 +15,13 @@ const Teams: FC<Props> = ({ teams }) => {
     const [teamList, setTeamList] = useState<team[]>(teams)
 
     const createTeam = (name: string) => {
-        let id = (teamList.at(-1)?.id || 0) + 1
-        teamList.forEach(team => {
-            if (id <= team.id) {
-                id = team.id +1
-            }
-        })
+        let id = Math.floor(Math.random()*99999)
+        // let id = (teamList.at(-1)?.id || 0) + 1
+        // teamList.forEach(team => {
+        //     if (id <= team.id) {
+        //         id = team.id +1
+        //     }
+        // })
         addTeam(id, name)
         setTeamList(prev => [...prev, { id: id, name }])
     }

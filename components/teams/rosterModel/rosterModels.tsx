@@ -22,12 +22,13 @@ const RosterModels: FC<Props> = ({ rosterId, rosterModels, models, positions }) 
     const totalCost = rosterModelList.reduce((acc, curr) => acc + (models.find(m => m.id === curr.modelId)?.cost ?? 0), initialValue)
 
     const createRosterModel = (rosterId: number, modelId: number, playerNumber: number) => {
-        let id = (rosterModelList.at(-1)?.id || 0) + 1
-        rosterModelList.forEach(roster => {
-            if (id <= roster.id) {
-                id = roster.id + 1
-            }
-        })
+        let id = Math.floor(Math.random()*99999)
+        // let id = (rosterModelList.at(-1)?.id || 0) + 1
+        // rosterModelList.forEach(roster => {
+        //     if (id <= roster.id) {
+        //         id = roster.id + 1
+        //     }
+        // })
         addRosterModel(id, rosterId, modelId, playerNumber)
         setRosterModelList(prev => [...prev, { id, rosterId, modelId, playerNumber }])
     }

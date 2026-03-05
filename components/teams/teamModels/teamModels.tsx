@@ -24,12 +24,13 @@ const TeamModels: FC<Props> = ({ teamModels, positions, teams }) => {
     const [teamModelsList, setteamModelsList] = useState<teamModels[]>(teamModels)
 
     const createTeamModels = async (teamId: number, positionId: number, minModels: number, maxModels: number) => {
-        let id = (teamModelsList.at(-1)?.id || 0) + 1
-        teamModelsList.forEach(teamModels => {
-            if (id <= teamModels.id) {
-                id = teamModels.id +1
-            }
-        })
+        let id = Math.floor(Math.random()*99999)
+        // let id = (teamModelsList.at(-1)?.id || 0) + 1
+        // teamModelsList.forEach(teamModels => {
+        //     if (id <= teamModels.id) {
+        //         id = teamModels.id +1
+        //     }
+        // })
         // const res = await add(id, teamId, positionId, minModels, maxModels)
         // if (res.success) {
         //     setteamModelsList(prev => [...prev, { id, teamId, positionId, minModels, maxModels }])

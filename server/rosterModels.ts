@@ -14,7 +14,7 @@ export const getRosterModels = async () => {
 export const addRosterModel = async (id: number, rosterId: number, modelId: number, playerNumber: number) => {
     const user = await getUser()
     if (!user) return false
-    await db.insert(rosterModel).values({
+    const res = await db.insert(rosterModel).values({
         id,
         rosterId,
         modelId,

@@ -15,12 +15,13 @@ const Positions: FC<Props> = ({ positions }) => {
     const [positionList, setPositionList] = useState<position[]>(positions)
 
     const createPosition = (name: string) => {
-        let id = (positionList.at(-1)?.id || 0) + 1
-        positionList.forEach(position => {
-            if (id <= position.id) {
-                id = position.id +1
-            }
-        })
+        let id = Math.floor(Math.random()*99999)
+        // let id = (positionList.at(-1)?.id || 0) + 1
+        // positionList.forEach(position => {
+        //     if (id <= position.id) {
+        //         id = position.id +1
+        //     }
+        // })
         addPosition(id, name)
         setPositionList(prev => [...prev, { id: id, name }])
     }
