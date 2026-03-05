@@ -3,11 +3,33 @@ import { pgTable, text, timestamp, boolean, index, integer } from "drizzle-orm/p
 
 // START of roster tables
 
+// Roster definitions
+export const roster = pgTable("roster", {
+  id: integer("id").primaryKey(),
+  name: text("name").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+})
+
+// Model numbers allowed in a team
+export const teamModels = pgTable("team_models", {
+  id: integer("id").primaryKey(),
+  teamId: integer("team_id")
+    .notNull()
+    .references(() => team.id, { onDelete: "cascade" }),
+  positionId: integer("position_id")
+    .notNull()
+    .references(() => model.id, { onDelete: "cascade" }),
+  minModels: integer("min_models").notNull(),
+  maxModels: integer("max_models").notNull(),
+})
+
+// Player position definitions
 export const position = pgTable("position", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
 })
 
+// Model definitions
 export const model = pgTable("model", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
@@ -22,6 +44,7 @@ export const model = pgTable("model", {
   cost: integer("cost").notNull(),
 })
 
+// Team definitions
 export const team = pgTable("team", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
