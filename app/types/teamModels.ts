@@ -4,4 +4,5 @@ export type teamModels = {
     positionId: number
     minModels: number
     maxModels: number
+    modelId: number
 }

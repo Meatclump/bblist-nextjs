@@ -3,11 +3,29 @@ import { pgTable, text, timestamp, boolean, index, integer } from "drizzle-orm/p
 
 // START of roster tables
 
+// Models added to a specific roster
+export const rosterModel = pgTable("roster_model", {
+  id: integer("id").primaryKey(),
+  rosterId: integer("roster_id")
+    .notNull()
+    .references(() => roster.id, { onDelete: "cascade" }),
+  modelId: integer("model_id")
+    .notNull()
+    .references(() => model.id, { onDelete: "cascade" }),
+  playerNumber: integer("player_number").notNull()
+})
+
 // Roster definitions
 export const roster = pgTable("roster", {
   id: integer("id").primaryKey(),
   name: text("name").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  teamId: integer("team_id")
+    .notNull()
+    .references(() => team.id, { onDelete: "cascade" })
 })
 
 // Model numbers allowed in a team
@@ -17,6 +35,9 @@ export const teamModels = pgTable("team_models", {
     .notNull()
     .references(() => team.id, { onDelete: "cascade" }),
   positionId: integer("position_id")
+    .notNull()
+    .references(() => position.id, { onDelete: "cascade" }),
+  modelId: integer("model_id")
     .notNull()
     .references(() => model.id, { onDelete: "cascade" }),
   minModels: integer("min_models").notNull(),
@@ -42,6 +63,11 @@ export const model = pgTable("model", {
   pa: integer("pa").notNull(),
   av: integer("av").notNull(),
   cost: integer("cost").notNull(),
+  teamId: integer("team_id")
+    .notNull()
+    .references(() => team.id, { onDelete: "cascade" }),
+  maxNum: integer("max_num").notNull(),
+  minNum: integer("min_num").notNull()
 })
 
 // Team definitions

@@ -7,5 +7,8 @@ export type model = {
     ag: number,
     pa: number,
     av: number,
-    cost: number
+    cost: number,
+    teamId: number,
+    maxNum: number,
+    minNum: number
 }

@@ -30,13 +30,13 @@ const TeamModels: FC<Props> = ({ teamModels, positions, teams }) => {
                 id = teamModels.id +1
             }
         })
-        const res = await add(id, teamId, positionId, minModels, maxModels)
-        if (res.success) {
-            setteamModelsList(prev => [...prev, { id, teamId, positionId, minModels, maxModels }])
-            toast.success(`Successfully added item` as string)
-        } else {
-            toast.error("Unable to add model" as string)
-        }
+        // const res = await add(id, teamId, positionId, minModels, maxModels)
+        // if (res.success) {
+        //     setteamModelsList(prev => [...prev, { id, teamId, positionId, minModels, maxModels }])
+        //     toast.success(`Successfully added item` as string)
+        // } else {
+        //     toast.error("Unable to add model" as string)
+        // }
     }
 
     const editModel = (id: number, name: string) => {
@@ -56,7 +56,7 @@ const TeamModels: FC<Props> = ({ teamModels, positions, teams }) => {
 
     return (
         <div className="flex flex-col gap-3">
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
                 <h3 className="font-semibold text-sm">Add</h3>
                 <AddTeamModels createTeamModels={createTeamModels} teams={teams} positions={positions} />
             </div>
@@ -83,7 +83,7 @@ const TeamModels: FC<Props> = ({ teamModels, positions, teams }) => {
                     </TableRow>
                 ))}
                 </TableBody>
-            </Table>
+            </Table> */}
         </div>
     )
 }

@@ -56,11 +56,11 @@ export default async function Manage() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <Models models={models} positions={positions} />
+                        <Models models={models} positions={positions} teams={teams} />
                     </CardContent>
                 </Card>
                 {/* Team Models */}
-                <Card>
+                {/* <Card>
                     <CardHeader>
                         <CardTitle>
                             Team Model Numbers
@@ -72,7 +72,7 @@ export default async function Manage() {
                     <CardContent>
                         <TeamModels teams={teams} positions={positions} teamModels={teamModels} />
                     </CardContent>
-                </Card>
+                </Card> */}
             </main>
         </div>
     )

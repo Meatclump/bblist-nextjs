@@ -10,14 +10,15 @@ export const getData = async () => {
     return data
 }
 
-export const add = async (id: number, teamId: number, positionId: number, minModels: number, maxModels: number) => {
+export const add = async (id: number, teamId: number, positionId: number, minModels: number, maxModels: number, modelId: number) => {
     try {
         await db.insert(teamModels).values({
             id,
             teamId,
             positionId,
             minModels,
-            maxModels
+            maxModels,
+            modelId
         })
         return {
             success: true

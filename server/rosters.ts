@@ -2,6 +2,7 @@
 
 import { db } from "@/db/drizzle"
 import { roster } from "@/db/schema"
+import getUser from "@/lib/user"
 import { eq } from "drizzle-orm"
 import { revalidatePath } from "next/cache"
 
@@ -10,10 +11,15 @@ export const getRosters = async () => {
     return data
 }
 
-export const addRoster = async (id: number, name: string) => {
+export const addRoster = async (id: number, name: string, teamId: number) => {
+    const user = await getUser()
+    if (!user) return false
     await db.insert(roster).values({
         id,
-        name
+        name,
+        createdAt: new Date(),
+        userId: user.id,
+        teamId
     })
 }
 
