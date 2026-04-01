@@ -5,10 +5,9 @@ import { getModels } from "@/server/models";
 import { getPositions } from "@/server/positions";
 import { getRosterModels } from "@/server/rosterModels";
 import { getRosters } from "@/server/rosters";
-import { getData } from "@/server/teamModels";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { FaArrowLeft, FaBackward } from "react-icons/fa6";
+import { FaArrowLeft } from "react-icons/fa6";
 
 export default async function Page({
     params

@@ -56,6 +56,11 @@ const RosterModels: FC<Props> = ({ rosterId, rosterModels, models, positions }) 
                             <TableHead>Player#</TableHead>
                             <TableHead>Position</TableHead>
                             <TableHead>Model</TableHead>
+                            <TableHead>MA</TableHead>
+                            <TableHead>ST</TableHead>
+                            <TableHead>AG</TableHead>
+                            <TableHead>PA</TableHead>
+                            <TableHead>AV</TableHead>
                             <TableHead>Cost</TableHead>
                             <TableHead>Delete</TableHead>
                         </TableRow>
@@ -66,6 +71,11 @@ const RosterModels: FC<Props> = ({ rosterId, rosterModels, models, positions }) 
                                 <TableCell>{rosterModel.playerNumber}</TableCell>
                                 <TableCell>{positions.find(pos => pos.id === models.find(m => m.id === rosterModel.modelId)?.positionId)?.name}</TableCell>
                                 <TableCell>{models.find(m => m.id === rosterModel.modelId)?.name}</TableCell>
+                                <TableCell>{models.find(m => m.id === rosterModel.modelId)?.ma}</TableCell>
+                                <TableCell>{models.find(m => m.id === rosterModel.modelId)?.st}</TableCell>
+                                <TableCell>{models.find(m => m.id === rosterModel.modelId)?.ag}</TableCell>
+                                <TableCell>{models.find(m => m.id === rosterModel.modelId)?.pa}</TableCell>
+                                <TableCell>{models.find(m => m.id === rosterModel.modelId)?.av}</TableCell>
                                 <TableCell>{toUSD(models.find(m => m.id === rosterModel.modelId)?.cost ?? 0)}</TableCell>
                                 <TableCell><DeleteRosterModel deleteRosterModel={deleteRosterModelItem} itemId={rosterModel.id} /></TableCell>
                             </TableRow>
