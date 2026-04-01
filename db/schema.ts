@@ -28,22 +28,6 @@ export const roster = pgTable("roster", {
     .references(() => team.id, { onDelete: "cascade" })
 })
 
-// Model numbers allowed in a team
-export const teamModels = pgTable("team_models", {
-  id: integer("id").primaryKey(),
-  teamId: integer("team_id")
-    .notNull()
-    .references(() => team.id, { onDelete: "cascade" }),
-  positionId: integer("position_id")
-    .notNull()
-    .references(() => position.id, { onDelete: "cascade" }),
-  modelId: integer("model_id")
-    .notNull()
-    .references(() => model.id, { onDelete: "cascade" }),
-  minModels: integer("min_models").notNull(),
-  maxModels: integer("max_models").notNull(),
-})
-
 // Player position definitions
 export const position = pgTable("position", {
   id: integer("id").primaryKey(),
