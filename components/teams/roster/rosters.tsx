@@ -10,7 +10,10 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { team } from "@/app/types/team"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { toast } from "sonner"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { FaEllipsis } from "react-icons/fa6"
+import { toastError, toastSuccess } from "@/lib/utils"
 
 interface Props {
     rosters: roster[]
@@ -24,13 +27,13 @@ const Rosters: FC<Props> = ({ rosters, teams }) => {
         const res = await addRoster(name, teamId)
         if (res && res.success) {
             if (res.id) {
-                toast.success(`Successfully added roster "${name}"`)
+                toastSuccess(`Successfully added roster "${name}"`)
                 setRosterList(prev => [...prev, { id: res.id ?? 0, name, createdAt: new Date(), userId: "", teamId }])
             } else {
-                toast.error(`Unable to add roster "${name}" - Could not generate roster ID`)
+                toastError(`Unable to add roster "${name}" - Could not generate roster ID`)
             }
         } else {
-            toast.error(`Unable to add roster "${name}"`)
+            toastError(`Unable to add roster "${name}"`)
         }
     }
 
@@ -39,9 +42,9 @@ const Rosters: FC<Props> = ({ rosters, teams }) => {
         const res = await editRoster(id, name)
         if (res.success) {
             setRosterList(prev => prev.map(team => team.id === id ? { ...team, name } : team))
-            toast.success(`Successfully updated name of roster "${rosterName}" to "${name}"`)
+            toastSuccess(`Successfully updated name of roster "${rosterName}" to "${name}"`)
         } else {
-            toast.error(`Unable to update name of roster "${rosterName}"`)
+            toastError(`Unable to update name of roster "${rosterName}"`)
         }
     }
 
@@ -50,49 +53,73 @@ const Rosters: FC<Props> = ({ rosters, teams }) => {
         const res = await deleteRoster(id)
         if (res.success) {
             setRosterList(prev => prev.filter(team => team.id !== id))
-            toast.success(`Successfully deleted roster "${rosterName}"`)
+            toastSuccess(`Successfully deleted roster "${rosterName}"`)
         } else {
-            toast.error(`Unable to delete roster "${rosterName}"`)
+            toastError(`Unable to delete roster "${rosterName}"`)
         }
     }
 
     return (
         <div className="flex flex-col gap-3">
-            <div className="flex flex-col">
-                <h3 className="font-semibold text-sm">Add</h3>
-                <AddRoster createRoster={createRoster} teams={teams} />
-            </div>
-            <h3 className="font-semibold text-sm">List</h3>
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead>Roster Name</TableHead>
-                        <TableHead>Team</TableHead>
-                        <TableHead></TableHead>
-                        <TableHead></TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                {rosterList.map(roster => (
-                    <TableRow key={`${roster.id}-${roster.name}`}>
-                        <TableCell>
-                            <Button variant={"default"}>
-                                <Link href={`/roster/${roster.id}`}>{roster.name}</Link>
-                            </Button>
-                        </TableCell>
-                        <TableCell>
-                            {teams.find(t => t.id === roster.teamId)?.name}
-                        </TableCell>
-                        <TableCell>
-                            <RenameRoster renameRoster={renameRoster} itemId={roster.id} />
-                        </TableCell>
-                        <TableCell>
-                            <DeleteRoster deleteRoster={deleteRosterItem} itemId={roster.id} />
-                        </TableCell>
-                    </TableRow>
-                ))}
-                </TableBody>
-            </Table>
+            <Card>
+                <CardHeader>
+                    <CardTitle>
+                        Add Roster
+                    </CardTitle>
+                    <CardDescription>
+                        Add new team rosters.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <AddRoster createRoster={createRoster} teams={teams} />
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Rosters</CardTitle>
+                    <CardDescription>View or modify your created rosters.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead className="font-bold w-50">Team</TableHead>
+                                <TableHead className="font-bold">Name</TableHead>
+                                <TableHead className="font-bold text-end">Actions</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {rosterList.map(roster => (
+                                <TableRow key={`${roster.id}-${roster.name}`}>
+                                    <TableCell>
+                                        {teams.find(t => t.id === roster.teamId)?.name}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button asChild variant={"link"} className="px-0">
+                                            <Link href={`/roster/${roster.id}`}>{roster.name}</Link>
+                                        </Button>
+                                    </TableCell>
+                                    <TableCell className="text-end">
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <Button variant={"outline"}><FaEllipsis /></Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent align="end">
+                                                <div className="flex flex-col gap-3">
+                                                    <h2>Rename Roster</h2>
+                                                    <RenameRoster renameRoster={renameRoster} itemId={roster.id} />
+                                                    <hr />
+                                                    <DeleteRoster deleteRoster={deleteRosterItem} itemId={roster.id} />
+                                                </div>
+                                            </PopoverContent>
+                                        </Popover>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </CardContent>
+            </Card>
         </div>
     )
 }

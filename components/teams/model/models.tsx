@@ -7,10 +7,9 @@ import { FC, useState } from "react"
 import DeleteModel from "./deleteModel"
 import EditModel from "./editModel"
 import { position } from "@/app/types/position"
-import { toast } from "sonner"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { team } from "@/app/types/team"
-import { generateIdFromList } from "@/lib/utils"
+import { generateIdFromList, toastError, toastSuccess } from "@/lib/utils"
 
 interface Props {
     models: model[]
@@ -38,9 +37,9 @@ const Models: FC<Props> = ({ models, positions, teams }) => {
         const res = await addModel(id, name, positionId, ma, st, ag, pa, av, cost, teamId, maxNum, minNum)
         if (res.success) {
             setModelList(prev => [...prev, { id, name, positionId, ma, st, ag, pa, av, cost, teamId, maxNum, minNum }])
-            toast.success(`Successfully added model ${name}` as string)
+            toastSuccess(`Successfully added model ${name}` as string)
         } else {
-            toast.error("Unable to add model" as string)
+            toastError("Unable to add model" as string)
         }
     }
 
@@ -55,9 +54,9 @@ const Models: FC<Props> = ({ models, positions, teams }) => {
         const res = await deleteModel(id)
         if (res.success) {
             setModelList(prev => prev.filter(model => model.id !== id))
-            toast.success(`Successfully deleted model "${modelName}"`)
+            toastSuccess(`Successfully deleted model "${modelName}"`)
         } else {
-            toast.error(`Unable to delete model "${modelName}"`)
+            toastError(`Unable to delete model "${modelName}"`)
         }
     }
 

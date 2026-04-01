@@ -12,7 +12,6 @@ export default async function Dashboard() {
         <div className="flex w-full justify-center">
             <main className="flex flex-col gap-3 p-3 w-full max-w-6xl">
                 <h1 className="text-4xl">Dashboard</h1>
-                <h2 className="text-2xl">Rosters</h2>
                 <Rosters rosters={rosters.filter(r => r.userId === user?.id)} teams={teams} />
             </main>
         </div>

@@ -14,9 +14,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
     }
 
     return (
-        <>
+        <div className="bg-stone-100 min-h-screen">
             <Nav />
             {children}
-        </>
+        </div>
     )
 }

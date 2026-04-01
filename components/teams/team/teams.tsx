@@ -6,8 +6,7 @@ import AddTeam from "./addTeam"
 import { FC, useState } from "react"
 import DeleteTeam from "./deleteTeam"
 import RenameTeam from "./renameTeam"
-import { toast } from "sonner"
-import { generateIdFromList } from "@/lib/utils"
+import { generateIdFromList, toastError, toastSuccess } from "@/lib/utils"
 
 interface Props {
     teams: team[]
@@ -21,9 +20,9 @@ const Teams: FC<Props> = ({ teams }) => {
         const res = await addTeam(id, name)
         if (res.success) {
             setTeamList(prev => [...prev, { id: id, name }])
-            toast.success(`Successfully added team: ${name}` as string)
+            toastSuccess(`Successfully added team: ${name}` as string)
         } else {
-            toast.error("Unable to add team" as string)
+            toastError("Unable to add team" as string)
         }
     }
 
@@ -32,9 +31,9 @@ const Teams: FC<Props> = ({ teams }) => {
         const res = await editTeam(id, name)
         if (res.success) {
             setTeamList(prev => prev.map(team => team.id === id ? { ...team, name } : team))
-            toast.success(`Successfully renamed team "${oldTeamName}" to "${name}"`)
+            toastSuccess(`Successfully renamed team "${oldTeamName}" to "${name}"`)
         } else {
-            toast.error(`Unable to rename team "${oldTeamName}"`)
+            toastError(`Unable to rename team "${oldTeamName}"`)
         }
     }
 
@@ -43,9 +42,9 @@ const Teams: FC<Props> = ({ teams }) => {
         const res = await deleteTeam(id)
         if (res.success) {
             setTeamList(prev => prev.filter(team => team.id !== id))
-            toast.success(`Successfully deleted team "${oldTeamName}"`)
+            toastSuccess(`Successfully deleted team "${oldTeamName}"`)
         } else {
-            toast.error(`Unable to delete team "${oldTeamName}"`)
+            toastError(`Unable to delete team "${oldTeamName}"`)
         }
     }
 

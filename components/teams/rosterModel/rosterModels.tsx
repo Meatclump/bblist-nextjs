@@ -8,8 +8,7 @@ import AddRosterModel from "./addRosterModel"
 import { model } from "@/app/types/model"
 import DeleteRosterModel from "./deleteRosterModel"
 import { position } from "@/app/types/position"
-import { toast } from "sonner"
-import { toUSD } from "@/lib/utils"
+import { toastError, toastSuccess, toUSD } from "@/lib/utils"
 
 interface Props {
     rosterId: number
@@ -29,12 +28,12 @@ const RosterModels: FC<Props> = ({ rosterId, rosterModels, models, positions }) 
         if (res && res.success) {
             if (res.id) {
                 setRosterModelList(prev => [...prev, { id: res.id, rosterId, modelId, playerNumber }])
-                toast.success(`Successfully added model "${model?.name}" to roster.`)
+                toastSuccess(`Successfully added model "${model?.name}" to roster.`)
             } else {
-                toast.error(`Unable to add model "${model?.name}" to roster - Could not generate roster model ID`)
+                toastError(`Unable to add model "${model?.name}" to roster - Could not generate roster model ID`)
             }
         } else {
-            toast.error(`Unable to add model "${model?.name}" to roster.`)
+            toastError(`Unable to add model "${model?.name}" to roster.`)
         }
     }
 
@@ -43,9 +42,9 @@ const RosterModels: FC<Props> = ({ rosterId, rosterModels, models, positions }) 
         const model = models.find(m => m.id === rosterModel?.modelId)
         const res = await deleteRosterModel(id)
         if (res.success) {
-            toast.success(`Successfully deleted model "${model?.name}" from roster.`)
+            toastSuccess(`Successfully deleted model "${model?.name}" from roster.`)
         } else {
-            toast.error(`Unable to delete model "${model?.name}" from roster.`)
+            toastError(`Unable to delete model "${model?.name}" from roster.`)
         }
         setRosterModelList(prev => {
             let newList = [...prev].filter(p => p.id !== id)

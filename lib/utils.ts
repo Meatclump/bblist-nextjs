@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { toast } from "sonner"
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs))
@@ -27,5 +28,21 @@ export function generateIdFromList(list: { id: number }[]) {
  * @returns number formatted as USD.
  */
 export function toUSD(value: number) {
-	return new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD', trailingZeroDisplay: 'stripIfInteger'}).format(value)
+	return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', trailingZeroDisplay: 'stripIfInteger' }).format(value)
+}
+
+export function toastSuccess(text: string) {
+	toast.success(text, {
+		classNames: {
+			toast: '!bg-green-300'
+		}
+	})
+}
+
+export function toastError(text: string) {
+	toast.success(text, {
+		classNames: {
+			toast: '!bg-red-300'
+		}
+	})
 }

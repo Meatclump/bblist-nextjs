@@ -6,7 +6,7 @@ import { Button } from "../ui/button"
 const Nav = async () => {
     const user = await getUser()
     return (
-        <div className="flex justify-between items-center px-3 py-2 border-b shadow-sm">
+        <div className="flex justify-between items-center px-3 py-2 border-b shadow-sm bg-white">
             <Link href={"/dashboard"}>BBList</Link>
             {user && (
                 <div className="flex gap-3 items-center">

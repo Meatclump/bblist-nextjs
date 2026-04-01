@@ -35,7 +35,7 @@ export default async function Page({
             <main className="flex flex-col gap-3 p-3 w-full max-w-6xl">
                 <h1 className="text-4xl">{currentRoster?.name ?? ""}</h1>
                 <div>
-                    <Button>
+                    <Button asChild variant={"link"}>
                         <Link className="flex items-center gap-2" href={"/dashboard"}><FaArrowLeft /> Return to Dashboard</Link>
                     </Button>
                 </div>

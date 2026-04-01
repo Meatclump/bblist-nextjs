@@ -6,8 +6,7 @@ import AddPosition from "./addPosition"
 import { FC, useState } from "react"
 import DeletePosition from "./deletePosition"
 import RenamePosition from "./renamePosition"
-import { generateIdFromList } from "@/lib/utils"
-import { toast } from "sonner"
+import { generateIdFromList, toastError, toastSuccess } from "@/lib/utils"
 
 interface Props {
     positions: position[]
@@ -21,9 +20,9 @@ const Positions: FC<Props> = ({ positions }) => {
         const res = await addPosition(id, name)
         if (res.success) {
             setPositionList(prev => [...prev, { id: id, name }])
-            toast.success(`Successfully added position "${name}"`)
+            toastSuccess(`Successfully added position "${name}"`)
         } else {
-            toast.error(`Unable to add position "${name}"`)
+            toastError(`Unable to add position "${name}"`)
         }
     }
 
@@ -32,9 +31,9 @@ const Positions: FC<Props> = ({ positions }) => {
         const res = await editPosition(id, name)
         if (res.success) {
             setPositionList(prev => prev.map(position => position.id === id ? { ...position, name } : position))
-            toast.success(`Successfully updated position "${oldName}" to "${name}"`)
+            toastSuccess(`Successfully updated position "${oldName}" to "${name}"`)
         } else {
-            toast.error(`Unable to update position "${oldName}" to "${name}"`)
+            toastError(`Unable to update position "${oldName}" to "${name}"`)
         }
     }
 
@@ -43,9 +42,9 @@ const Positions: FC<Props> = ({ positions }) => {
         const res = await deletePosition(id)
         if (res.success) {
             setPositionList(prev => prev.filter(position => position.id !== id))
-            toast.success(`Successfully deleted position "${positionName}"`)
+            toastSuccess(`Successfully deleted position "${positionName}"`)
         } else {
-            toast.error(`Unable to update position "${positionName}"`)
+            toastError(`Unable to update position "${positionName}"`)
         }
     }
 

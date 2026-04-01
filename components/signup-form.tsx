@@ -10,7 +10,7 @@ import {
   FormLabel,
 } from "@/components/ui/form"
 
-import { cn } from "@/lib/utils"
+import { cn, toastError, toastSuccess } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -24,13 +24,11 @@ import {
   FieldDescription,
   FieldError,
   FieldGroup,
-  FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { signUp } from "@/server/users"
 import { z } from "zod"
 import Link from "next/link"
-import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { Spinner } from "./ui/spinner"
@@ -67,10 +65,10 @@ export function SignupForm({
     const { success, message } = await signUp(values.username, values.email, values.password)
 
     if (success) {
-      toast.success(message as string)
+      toastSuccess(message as string)
       router.push("/dashboard")
     } else {
-      toast.error(message as string, { className: "!bg-destructive/30" })
+      toastError(message as string)
     }
     setIsLoading(false)
   }
