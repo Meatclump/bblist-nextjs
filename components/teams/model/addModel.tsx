@@ -43,7 +43,7 @@ const AddModel: FC<Props> = ({ createModel, positions, teams }) => {
 
     return (
         <div className="w-full flex gap-1 mt-2">
-            <div className="flex flex-col gap-1 min-w-[150px]">
+            <div className="flex flex-col gap-1 min-w-37.5">
                 <Label htmlFor={"modelName"}>Name</Label>
                 <Input
                     id="modelName"
