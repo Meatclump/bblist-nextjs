@@ -19,3 +19,13 @@ export function generateIdFromList(list: { id: number }[]) {
 	})
 	return id
 }
+
+/**
+ * Displays a number as a USD value.
+ * 
+ * @param value number to display in dollars
+ * @returns number formatted as USD.
+ */
+export function toUSD(value: number) {
+	return new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD', trailingZeroDisplay: 'stripIfInteger'}).format(value)
+}

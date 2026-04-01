@@ -8,6 +8,8 @@ import AddRosterModel from "./addRosterModel"
 import { model } from "@/app/types/model"
 import DeleteRosterModel from "./deleteRosterModel"
 import { position } from "@/app/types/position"
+import { toast } from "sonner"
+import { toUSD } from "@/lib/utils"
 
 interface Props {
     rosterId: number
@@ -21,28 +23,34 @@ const RosterModels: FC<Props> = ({ rosterId, rosterModels, models, positions }) 
     const initialValue = 0
     const totalCost = rosterModelList.reduce((acc, curr) => acc + (models.find(m => m.id === curr.modelId)?.cost ?? 0), initialValue)
 
-    const createRosterModel = (rosterId: number, modelId: number, playerNumber: number) => {
-        let id = Math.floor(Math.random()*99999)
-        // let id = (rosterModelList.at(-1)?.id || 0) + 1
-        // rosterModelList.forEach(roster => {
-        //     if (id <= roster.id) {
-        //         id = roster.id + 1
-        //     }
-        // })
-        addRosterModel(id, rosterId, modelId, playerNumber)
-        setRosterModelList(prev => [...prev, { id, rosterId, modelId, playerNumber }])
+    const createRosterModel = async (rosterId: number, modelId: number, playerNumber: number) => {
+        const model = models.find(m => m.id === modelId)
+        const res = await addRosterModel(rosterId, modelId, playerNumber)
+        if (res && res.success) {
+            if (res.id) {
+                setRosterModelList(prev => [...prev, { id: res.id, rosterId, modelId, playerNumber }])
+                toast.success(`Successfully added model "${model?.name}" to roster.`)
+            } else {
+                toast.error(`Unable to add model "${model?.name}" to roster - Could not generate roster model ID`)
+            }
+        } else {
+            toast.error(`Unable to add model "${model?.name}" to roster.`)
+        }
     }
 
-    const deleteRosterModelItem = (id: number) => {
+    const deleteRosterModelItem = async (id: number) => {
+        const rosterModel = rosterModelList.find(rm => rm.id === id)
+        const model = models.find(m => m.id === rosterModel?.modelId)
+        const res = await deleteRosterModel(id)
+        if (res.success) {
+            toast.success(`Successfully deleted model "${model?.name}" from roster.`)
+        } else {
+            toast.error(`Unable to delete model "${model?.name}" from roster.`)
+        }
         setRosterModelList(prev => {
             let newList = [...prev].filter(p => p.id !== id)
             return newList
         })
-        deleteRosterModel(id)
-    }
-
-    const toUSD = (value: number) => {
-        return new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD', trailingZeroDisplay: 'stripIfInteger'}).format(value)
     }
 
     return (
