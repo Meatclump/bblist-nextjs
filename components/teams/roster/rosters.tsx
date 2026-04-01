@@ -24,7 +24,7 @@ const Rosters: FC<Props> = ({ rosters, teams }) => {
         const res = await addRoster(name, teamId)
         if (res && res.success) {
             if (res.id) {
-                toast.success(`Successfully added new roster "${name}"`)
+                toast.success(`Successfully added roster "${name}"`)
                 setRosterList(prev => [...prev, { id: res.id ?? 0, name, createdAt: new Date(), userId: "", teamId }])
             } else {
                 toast.error(`Unable to add roster "${name}" - Could not generate roster ID`)
@@ -34,14 +34,26 @@ const Rosters: FC<Props> = ({ rosters, teams }) => {
         }
     }
 
-    const renameRoster = (id: number, name: string) => {
-        setRosterList(prev => prev.map(team => team.id === id ? { ...team, name } : team))
-        editRoster(id, name)
+    const renameRoster = async (id: number, name: string) => {
+        const rosterName = rosterList.find(r => r.id === id)?.name
+        const res = await editRoster(id, name)
+        if (res.success) {
+            setRosterList(prev => prev.map(team => team.id === id ? { ...team, name } : team))
+            toast.success(`Successfully updated name of roster "${rosterName}" to "${name}"`)
+        } else {
+            toast.error(`Unable to update name of roster "${rosterName}"`)
+        }
     }
 
-    const deleteRosterItem = (id: number) => {
-        setRosterList(prev => prev.filter(team => team.id !== id))
-        deleteRoster(id)
+    const deleteRosterItem = async (id: number) => {
+        const rosterName = rosterList.find(r => r.id === id)?.name
+        const res = await deleteRoster(id)
+        if (res.success) {
+            setRosterList(prev => prev.filter(team => team.id !== id))
+            toast.success(`Successfully deleted roster "${rosterName}"`)
+        } else {
+            toast.error(`Unable to delete roster "${rosterName}"`)
+        }
     }
 
     return (

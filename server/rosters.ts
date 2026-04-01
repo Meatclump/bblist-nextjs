@@ -48,16 +48,34 @@ export const addRoster = async (name: string, teamId: number) => {
 }
 
 export const deleteRoster = async (id: number) => {
-    await db.delete(roster).where(eq(roster.id, id))
-    revalidatePath("/dashboard")
+    try {
+        await db.delete(roster).where(eq(roster.id, id))
+        return {
+            success: true
+        }
+    } catch (error) {
+        console.error(error)
+        return {
+            success: false
+        }
+    }
 }
 
 export const editRoster = async (id: number, name: string) => {
-    await db
-        .update(roster)
-        .set({
-            name
-        })
-        .where(eq(roster.id, id))
-    revalidatePath("/dashboard")
+    try {
+        await db
+            .update(roster)
+            .set({
+                name
+            })
+            .where(eq(roster.id, id))
+        return {
+            success: true
+        }
+    } catch (error) {
+        console.error(error)
+        return {
+            success: false
+        }
+    }
 }
