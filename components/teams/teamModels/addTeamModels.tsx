@@ -1,13 +1,11 @@
 "use client";
 
-import { ChangeEvent, ChangeEventHandler, FC, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { Button } from "../../ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { model } from "@/app/types/model";
 import { Label } from "@/components/ui/label";
 import { team } from "@/app/types/team";
-import { teamModels } from "@/app/types/teamModels";
 import { position } from "@/app/types/position";
 
 interface Props {
