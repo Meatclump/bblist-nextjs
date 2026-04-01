@@ -10,6 +10,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { team } from "@/app/types/team"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { toast } from "sonner"
 
 interface Props {
     rosters: roster[]
@@ -19,10 +20,18 @@ interface Props {
 const Rosters: FC<Props> = ({ rosters, teams }) => {
     const [rosterList, setRosterList] = useState<roster[]>(rosters)
 
-    const createRoster = (name: string, teamId: number) => {
-        let id = Math.floor(Math.random()*99999)
-        addRoster(id, name, teamId)
-        setRosterList(prev => [...prev, { id, name, createdAt: new Date(), userId: "", teamId }])
+    const createRoster = async (name: string, teamId: number) => {
+        const res = await addRoster(name, teamId)
+        if (res && res.success) {
+            if (res.id) {
+                toast.success(`Successfully added new roster "${name}"`)
+                setRosterList(prev => [...prev, { id: res.id ?? 0, name, createdAt: new Date(), userId: "", teamId }])
+            } else {
+                toast.error(`Unable to add roster "${name}" - Could not generate roster ID`)
+            }
+        } else {
+            toast.error(`Unable to add roster "${name}"`)
+        }
     }
 
     const renameRoster = (id: number, name: string) => {
