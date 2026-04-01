@@ -29,16 +29,33 @@ export const addTeam = async (id: number, name: string) => {
 }
 
 export const deleteTeam = async (id: number) => {
-    await db.delete(team).where(eq(team.id, id))
-    revalidatePath("/manage")
+    try {
+        await db.delete(team).where(eq(team.id, id))
+        return {
+            success: true
+        }
+    } catch (error) {
+        return {
+            success: false
+        }
+    }
 }
 
 export const editTeam = async (id: number, name: string) => {
-    await db
-        .update(team)
-        .set({
-            name
-        })
-        .where(eq(team.id, id))
-    revalidatePath("/")
+    try {
+        await db
+            .update(team)
+            .set({
+                name
+            })
+            .where(eq(team.id, id))
+        return {
+            success: true
+        }
+    } catch (error) {
+        console.error(error)
+        return {
+            success: false
+        }
+    }
 }
