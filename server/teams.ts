@@ -3,8 +3,6 @@
 import { db } from "@/db/drizzle"
 import { team } from "@/db/schema"
 import { eq } from "drizzle-orm"
-import { revalidatePath } from "next/cache"
-import { success } from "zod"
 
 export const getTeams = async () => {
     const data = await db.select().from(team)
