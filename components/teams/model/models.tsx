@@ -10,6 +10,7 @@ import { position } from "@/app/types/position"
 import { toast } from "sonner"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { team } from "@/app/types/team"
+import { generateIdFromList } from "@/lib/utils"
 
 interface Props {
     models: model[]
@@ -33,12 +34,7 @@ const Models: FC<Props> = ({ models, positions, teams }) => {
         maxNum: number,
         minNum: number
     ) => {
-        let id = 0
-        modelList.forEach(model => {
-            if (id <= model.id) {
-                id = model.id + 1
-            }
-        })
+        let id = generateIdFromList(modelList)
         const res = await addModel(id, name, positionId, ma, st, ag, pa, av, cost, teamId, maxNum, minNum)
         if (res.success) {
             setModelList(prev => [...prev, { id, name, positionId, ma, st, ag, pa, av, cost, teamId, maxNum, minNum }])
