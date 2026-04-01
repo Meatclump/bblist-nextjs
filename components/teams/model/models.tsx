@@ -20,14 +20,25 @@ interface Props {
 const Models: FC<Props> = ({ models, positions, teams }) => {
     const [modelList, setModelList] = useState<model[]>(models)
 
-    const createModel = async (name: string, positionId: number, ma: number, st: number, ag: number, pa: number, av: number, cost: number, teamId: number, maxNum: number, minNum: number) => {
-        let id = Math.floor(Math.random()*99999)
-        // let id = (modelList.at(-1)?.id || 0) + 1
-        // modelList.forEach(model => {
-        //     if (id <= model.id) {
-        //         id = model.id +1
-        //     }
-        // })
+    const createModel = async (
+        name: string,
+        positionId: number,
+        ma: number,
+        st: number,
+        ag: number,
+        pa: number,
+        av: number,
+        cost: number,
+        teamId: number,
+        maxNum: number,
+        minNum: number
+    ) => {
+        let id = 0
+        modelList.forEach(model => {
+            if (id <= model.id) {
+                id = model.id + 1
+            }
+        })
         const res = await addModel(id, name, positionId, ma, st, ag, pa, av, cost, teamId, maxNum, minNum)
         if (res.success) {
             setModelList(prev => [...prev, { id, name, positionId, ma, st, ag, pa, av, cost, teamId, maxNum, minNum }])
