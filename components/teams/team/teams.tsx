@@ -6,6 +6,7 @@ import AddTeam from "./addTeam"
 import { FC, useState } from "react"
 import DeleteTeam from "./deleteTeam"
 import RenameTeam from "./renameTeam"
+import { toast } from "sonner"
 
 interface Props {
     teams: team[]
@@ -14,15 +15,20 @@ interface Props {
 const Teams: FC<Props> = ({ teams }) => {
     const [teamList, setTeamList] = useState<team[]>(teams)
 
-    const createTeam = (name: string) => {
+    const createTeam = async (name: string) => {
         let id = 0
         teamList.forEach(team => {
             if (id <= team.id) {
                 id = team.id + 1
             }
         })
-        addTeam(id, name)
-        setTeamList(prev => [...prev, { id: id, name }])
+        const res = await addTeam(id, name)
+        if (res.success) {
+            setTeamList(prev => [...prev, { id: id, name }])
+            toast.success(`Successfully added team: ${name}` as string)
+        } else {
+            toast.error("Unable to add team" as string)
+        }
     }
 
     const renameTeam = (id: number, name: string) => {
