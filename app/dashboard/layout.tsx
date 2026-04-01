@@ -1,6 +1,5 @@
 import Nav from "@/components/navbar/nav"
 import { auth } from "@/lib/auth"
-import getUser from "@/lib/user"
 import { headers } from "next/headers"
 import { redirect } from "next/navigation"
 
