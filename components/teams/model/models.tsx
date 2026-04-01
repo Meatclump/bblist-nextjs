@@ -44,10 +44,11 @@ const Models: FC<Props> = ({ models, positions, teams }) => {
         }
     }
 
-    const editModel = (id: number, name: string) => {
-        setModelList(prev => prev.map(model => model.id === id ? { ...model, name } : model))
-        // editModel(id, name)
-    }
+    // Unsure if we will bother with editing a model, as opposed to just deleting and recreating it.
+    // const editModel = (id: number, name: string) => {
+    //     setModelList(prev => prev.map(model => model.id === id ? { ...model, name } : model))
+    //     // editModel(id, name)
+    // }
 
     const deleteModelItem = (id: number) => {
         setModelList(prev => prev.filter(model => model.id !== id))
