@@ -6,6 +6,8 @@ import AddPosition from "./addPosition"
 import { FC, useState } from "react"
 import DeletePosition from "./deletePosition"
 import RenamePosition from "./renamePosition"
+import { generateIdFromList } from "@/lib/utils"
+import { toast } from "sonner"
 
 interface Props {
     positions: position[]
@@ -14,25 +16,37 @@ interface Props {
 const Positions: FC<Props> = ({ positions }) => {
     const [positionList, setPositionList] = useState<position[]>(positions)
 
-    const createPosition = (name: string) => {
-        let id = 0
-        positionList.forEach(position => {
-            if (id <= position.id) {
-                id = position.id + 1
-            }
-        })
-        addPosition(id, name)
-        setPositionList(prev => [...prev, { id: id, name }])
+    const createPosition = async (name: string) => {
+        let id = generateIdFromList(positionList)
+        const res = await addPosition(id, name)
+        if (res.success) {
+            setPositionList(prev => [...prev, { id: id, name }])
+            toast.success(`Successfully added position "${name}"`)
+        } else {
+            toast.error(`Unable to add position "${name}"`)
+        }
     }
 
-    const renamePosition = (id: number, name: string) => {
-        setPositionList(prev => prev.map(position => position.id === id ? { ...position, name } : position))
-        editPosition(id, name)
+    const renamePosition = async (id: number, name: string) => {
+        const oldName = positionList.find(t => t.id === id)?.name
+        const res = await editPosition(id, name)
+        if (res.success) {
+            setPositionList(prev => prev.map(position => position.id === id ? { ...position, name } : position))
+            toast.success(`Successfully updated position "${oldName}" to "${name}"`)
+        } else {
+            toast.error(`Unable to update position "${oldName}" to "${name}"`)
+        }
     }
 
-    const deletePositionItem = (id: number) => {
-        setPositionList(prev => prev.filter(position => position.id !== id))
-        deletePosition(id)
+    const deletePositionItem = async (id: number) => {
+        const positionName = positionList.find(t => t.id === id)?.name
+        const res = await deletePosition(id)
+        if (res.success) {
+            setPositionList(prev => prev.filter(position => position.id !== id))
+            toast.success(`Successfully deleted position "${positionName}"`)
+        } else {
+            toast.error(`Unable to update position "${positionName}"`)
+        }
     }
 
     return (
