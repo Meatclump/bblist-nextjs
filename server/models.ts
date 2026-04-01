@@ -25,8 +25,17 @@ export const addModel = async (id: number, name: string, positionId: number, ma:
 }
 
 export const deleteModel = async (id: number) => {
-    await db.delete(model).where(eq(model.id, id))
-    revalidatePath("/manage")
+    try {
+        await db.delete(model).where(eq(model.id, id))
+        return {
+            success: true
+        }
+    } catch (error) {
+        console.error(error)
+        return {
+            success: false
+        }
+    }
 }
 
 export const editModel = async (id: number, name: string, positionId: number, ma: number, st: number, ag: number, pa: number, av: number, cost: number) => {

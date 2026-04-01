@@ -50,9 +50,15 @@ const Models: FC<Props> = ({ models, positions, teams }) => {
     //     // editModel(id, name)
     // }
 
-    const deleteModelItem = (id: number) => {
-        setModelList(prev => prev.filter(model => model.id !== id))
-        deleteModel(id)
+    const deleteModelItem = async (id: number) => {
+        const modelName = modelList.find(m => m.id === id)?.name
+        const res = await deleteModel(id)
+        if (res.success) {
+            setModelList(prev => prev.filter(model => model.id !== id))
+            toast.success(`Successfully deleted model "${modelName}"`)
+        } else {
+            toast.error(`Unable to delete model "${modelName}"`)
+        }
     }
 
     return (
